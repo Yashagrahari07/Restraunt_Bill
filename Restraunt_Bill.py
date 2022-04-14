@@ -23,7 +23,8 @@ lblinfo.grid(row=0,column=0)
 lblinfo = Label(Tops, font=( 'aria' ,20, ),text=localtime,fg="steel blue")
 lblinfo.grid(row=1,column=0)
 
-def Ref():
+
+def Ref(): 
     x=random.randint(12980, 50876) 
     randomRef = str(x) 
     rand.set(randomRef) 
@@ -40,7 +41,35 @@ def Ref():
         Filet.set(0) 
     if Cheese_burger.get()=="": 
         Cheese_burger.set(0) 
-
+    if CName.get()=="": 
+        MessageBox.showinfo("Invalid","Customer's Name cannot be empty.") 
+    else: 
+        cof =float(Fries.get())
+        colfries= float(Largefries.get()) 
+        cob= float(Burger.get()) 
+        cofi= float(Filet.get()) 
+        cochee= float(Cheese_burger.get()) 
+        codr= float(Drinks.get()) 
+        costoffries = cof*25 
+        costoflargefries = colfries*40 
+        costofburger = cob*35 
+        costoffilet = cofi*50 
+        costofcheeseburger = cochee*30 
+        costofdrinks = codr*35 
+        costofmeal = "Rs." + str('%.2f'% (costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)) 
+        PayTax=((costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)*0.18) 
+        Totalcost=(costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)
+        Ser_Charge=(costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks )//99 
+        Service = "Rs." + str('%.2f'% Ser_Charge)
+        OverAllCost="Rs." + str('%.2f'% (PayTax + Totalcost + Ser_Charge)) 
+        PaidTax="Rs." + str('%.2f'% PayTax) 
+        Service_Charge.set(Service) 
+        cost.set(costofmeal) 
+        Tax.set(PaidTax) 
+        Subtotal.set(costofmeal) 
+        Total.set(OverAllCost)
+    
+    
 def qexit():
     root.destroy()
 
@@ -58,7 +87,6 @@ def reset():
     Tax.set("")
     cost.set("")
     Cheese_burger.set("")
-
 
 
 #---------------------------------------------------------------------------------------
