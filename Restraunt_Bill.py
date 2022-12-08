@@ -1,11 +1,28 @@
 from tkinter import*
 import random
 import time
+import mysql.connector as con
 import tkinter.messagebox as MessageBox
-   
+
+mycon=con.connect(host="localhost",user="root",passwd="Yash1234")
+db=mycon.cursor()
+db.execute("show databases")
+dlst=db.fetchall()
+if ("cafebill",) not in dlst:
+    dbb=mycon.cursor()
+    dbb.execute("create database cafebill")
+db.execute("use cafebill")
+
+cr=mycon.cursor()
+cr.execute("show tables")
+lst=cr.fetchall()
+if ("orders",) not in lst:
+    cur=mycon.cursor()
+    cur.execute("create table orders(order_no char(10),Customers_Name Char(20),Date_Time char(30),drinks float(2),french_fries float(2),lunch float(2),burger float(2),pizza float(2),cheese_burger float(2),cost char(10),service_charge char(10),tax char(10),subtotal char(10),total char(10))")
+        
 root = Tk()
 root.geometry("930x580+0+0")
-root.title("RESTAURANT BILLING SYSTEM")
+root.title("RESTRAUNT BILLING")
 
 Tops = Frame(root,bg="white",width = 1600,height=50,relief=SUNKEN)
 Tops.pack(side=TOP)
@@ -18,57 +35,64 @@ f2.pack(side=RIGHT)
 #------------------TIME--------------
 localtime=time.asctime(time.localtime(time.time()))
 #-----------------INFO TOP------------
-lblinfo = Label(Tops, font=( 'aria' ,30, 'bold', ),text="RESTAURANT BILLING",fg="Black",bd=10)
+lblinfo = Label(Tops, font=( 'aria' ,30, 'bold' ),text="RESTRAUNT BILLING",fg="Black",bd=10)
 lblinfo.grid(row=0,column=0)
 lblinfo = Label(Tops, font=( 'aria' ,20, ),text=localtime,fg="steel blue")
 lblinfo.grid(row=1,column=0)
 
 
-def Ref(): 
-    x=random.randint(12980, 50876) 
-    randomRef = str(x) 
-    rand.set(randomRef) 
- 
-    if Drinks.get()=="": 
-        Drinks.set(0) 
-    if Fries.get()=="": 
-        Fries.set(0) 
-    if Largefries.get()=="": 
-        Largefries.set(0) 
-    if Burger.get()=="": 
-        Burger.set(0) 
-    if Filet.get()=="": 
-        Filet.set(0) 
-    if Cheese_burger.get()=="": 
-        Cheese_burger.set(0) 
-    if CName.get()=="": 
-        MessageBox.showinfo("Invalid","Customer's Name cannot be empty.") 
-    else: 
-        cof =float(Fries.get())
-        colfries= float(Largefries.get()) 
-        cob= float(Burger.get()) 
-        cofi= float(Filet.get()) 
-        cochee= float(Cheese_burger.get()) 
-        codr= float(Drinks.get()) 
-        costoffries = cof*25 
-        costoflargefries = colfries*40 
-        costofburger = cob*35 
-        costoffilet = cofi*50 
-        costofcheeseburger = cochee*30 
-        costofdrinks = codr*35 
-        costofmeal = "Rs." + str('%.2f'% (costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)) 
-        PayTax=((costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)*0.18) 
-        Totalcost=(costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)
-        Ser_Charge=(costoffries + costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks )//99 
-        Service = "Rs." + str('%.2f'% Ser_Charge)
-        OverAllCost="Rs." + str('%.2f'% (PayTax + Totalcost + Ser_Charge)) 
-        PaidTax="Rs." + str('%.2f'% PayTax) 
-        Service_Charge.set(Service) 
-        cost.set(costofmeal) 
-        Tax.set(PaidTax) 
-        Subtotal.set(costofmeal) 
-        Total.set(OverAllCost)
+def Ref():
+    x=random.randint(12980, 50876)
+    randomRef = str(x)
+    rand.set(randomRef)
     
+    if Drinks.get()=="":
+        Drinks.set(0)
+    if Fries.get()=="":
+        Fries.set(0)
+    if Largefries.get()=="":
+        Largefries.set(0)
+    if Burger.get()=="":
+        Burger.set(0)
+    if Filet.get()=="":
+        Filet.set(0)
+    if Cheese_burger.get()=="":
+        Cheese_burger.set(0)
+    if CName.get()=="":
+        MessageBox.showinfo("Invalid","Customer's Name cannot be empty.")
+    else:
+        cof =float(Fries.get())
+        colfries= float(Largefries.get())
+        cob= float(Burger.get())
+        cofi= float(Filet.get())
+        cochee= float(Cheese_burger.get())
+        codr= float(Drinks.get())
+
+        costoffries = cof*25
+        costoflargefries = colfries*40
+        costofburger = cob*35
+        costoffilet = cofi*50
+        costofcheeseburger = cochee*30
+        costofdrinks = codr*35
+
+        costofmeal = "Rs."+str('%.2f'% (costoffries +  costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks))
+        PayTax=((costoffries +  costoflargefries + costofburger + costoffilet +  costofcheeseburger + costofdrinks)*0.18)
+        Totalcost=(costoffries +  costoflargefries + costofburger + costoffilet  + costofcheeseburger + costofdrinks)
+        Ser_Charge=((costoffries +  costoflargefries + costofburger + costoffilet + costofcheeseburger + costofdrinks)/99)
+        Service="Rs."+str('%.2f'% Ser_Charge)
+        OverAllCost="Rs."+str('%.2f'% (PayTax + Totalcost + Ser_Charge))
+        PaidTax="Rs."+str('%.2f'% PayTax)
+
+        Service_Charge.set(Service)
+        cost.set(costofmeal)
+        Tax.set(PaidTax)
+        Subtotal.set(costofmeal)
+        Total.set(OverAllCost)
+
+        setdata=mycon.cursor()
+        data="insert into orders values('{}','{}','{}',{},{},{},{},{},{},'{}','{}','{}','{}','{}')"
+        setdata.execute(data.format(rand.get(),CName.get(),str(localtime),codr,cof,colfries,cob,cofi,cochee,cost.get(),Service_Charge.get(),Tax.get(),Subtotal.get(),Total.get()))
+        mycon.commit()
     
 def qexit():
     root.destroy()
